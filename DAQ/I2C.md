@@ -69,5 +69,7 @@ $ sudo i2cdetect -y 0
 ## 注意
 
 我只是将这些内容用自己的话加以表述了一番，其中肯定有一些句子是直接翻译或者摘抄的，因为我在总结的时候也是做过一点功课的，但凡看到某些表述，感觉超过自己的表达水平，就搬到了这里。作为一个受过严谨科学教育的人，不加引用是一件很不专业的事情，但是我也是不太专业的人。如果有原创作者觉得这是抄袭，我可以予以更正。在本文中，大幅度参考了以下几篇文章或者博客：
+
 [1]. [简单优雅的总线协议--I2C](https://zhuanlan.zhihu.com/p/31086959)
-[2]. An Introduction to I2C and SPI Protocols
+
+[2]. [An Introduction to I2C and SPI Protocols](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4762946)
