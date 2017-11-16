@@ -67,16 +67,22 @@ $ sudo i2cdetect -y 0
 
 ### 打开总线
 
-这个步骤使用中定义的open函数来打开总线。
+和通常文件操作中采用fopen来打开文件一样，通常使用中定义的open函数来将设备接入I2C总线，其也返回一个文件描述符(file discription)。
 
 ```C++
 int file;
-char *filename = "/dev/i2c-2";
-if ((file = open(filename, O_RDWR)) < 0) {
-    /* ERROR HANDLING: you can check errno to see what went wrong */
-    perror("Failed to open the i2c bus");
+char *filename = "/dev/i2c-1";
+if ((file = open(filename, O_RDWR)) < 0) { // 第二个参数需为O_RDWR
+    // 接入总线失败
+    perror("Failed to open the i2c bus");
     exit(1);
 }
+```
+
+若打开成功，则返回一个正的整数值；反之，若返回值为负数，则说明打开没有成功。此时最有可能的情况是没有使用``/dev/i2c-1``的权限，参照[udev rule](https://xgoat.com/wp/2008/01/29/i2c-device-udev-rule/)在``/etc/udev/rules.d``中加入下列语句：
+
+```
+KERNEL=="i2c-[0-9]*", GROUP="i2c"
 ```
 
 
