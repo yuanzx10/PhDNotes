@@ -63,7 +63,22 @@ $ sudo i2cdetect -y 0
 
 ## I2C的程序设计
 
-十分完善的Linux的I2C驱动也不是一件很容易的事情，在这里只是简单地介绍一下在实际测试中怎样使用这个接口来收发数据
+十分完善的Linux的I2C驱动也不是一件很容易的事情，在这里只是简单地介绍一下在实际测试中怎样使用这个接口来收发数据。看官们听我一一道来：
+
+### 打开总线
+
+这个步骤使用中定义的open函数来打开总线。
+
+```C++
+int file;
+char *filename = "/dev/i2c-2";
+if ((file = open(filename, O_RDWR)) < 0) {
+    /* ERROR HANDLING: you can check errno to see what went wrong */
+    perror("Failed to open the i2c bus");
+    exit(1);
+}
+```
+
 
 
 ## 注意
@@ -73,3 +88,5 @@ $ sudo i2cdetect -y 0
 [1]. [简单优雅的总线协议--I2C](https://zhuanlan.zhihu.com/p/31086959)
 
 [2]. [An Introduction to I2C and SPI Protocols](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4762946)
+
+[3]. [Interfacing with I2C devices](https://elinux.org/Interfacing_with_I2C_Devices)
