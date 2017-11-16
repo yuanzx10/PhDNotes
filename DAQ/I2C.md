@@ -15,6 +15,8 @@ I2C是一个支持多个主设备的**两线式串行总线**，这两条线被�
 
 ![](PhDNotes/DAQ/figures/I2C-data-transfer.png)
 
+在通信开始的时候，主设备将发出一个开始信号，从设备在接收到这个
+
 ## Linux上的I2C设备调试
 
 为简化调试，通常我们在Linux机器上安装i2c-tools进行设备调试，安装方法为：
