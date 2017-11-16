@@ -34,7 +34,12 @@ I2C是一个支持多个主设备(multi-master)的**两线式串行总线**，�
 ![](https://github.com/yuanzx10/PhDNotes/raw/master/DAQ/figures/I2C-start-stop.png)
 ![](https://github.com/yuanzx10/PhDNotes/raw/master/DAQ/figures/I2C-data.png)
 
-而在数据传输之间，I2C协议对$I^2C$
+而在数据传输之间，I2C协议对两条线上的信号是有一定要求的：
+
+ - 当SCL为高时，SDA上的数据不允许变化；而当SCL为低时，SDA上的数据允许变化
+ - SDA的变化对SCL的上升沿和下降沿分别有建立时间和保持时间的要求
+ 
+ 关于I2C的基本介绍就到这里，下面将简要介绍一下I2C设备的调试以及简单的程序设计。
 
 ## Linux上的I2C设备调试
 
@@ -52,6 +57,8 @@ $ sudo i2cdetect -y 0
 ```
 
 其中``0``代表是I2C0端口，此时将返回其8-bit的数据，其中包括7-bit的端口地址以及为0的R/W应答位。如返回的数据为0000 0110，则最后一位是应答位，所以地址为0x03。
+
+我现在有点怀疑这个工具只能用在Rospberry Pi上，因为我在自己的PC上试图操作的时候发现干不了活。真是遗憾。
 
 
 ## I2C的程序设计
