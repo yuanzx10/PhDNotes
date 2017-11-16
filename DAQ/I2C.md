@@ -13,7 +13,7 @@ I2C是一个支持多个主设备的**两线式串行总线**，这两条线被�
 
 我们仅考虑两个设备之间的通信，其物理的连接方式如下图所示。可以看出这两个设备是彼此之间对称的，在协议中通常把先启动通信的设备称之为主设备，而其他设备称为从设备。
 
-![Aaron Swartz](https://github.com/yuanzx10/PhDNotes/tree/master/DAQ/figures/I2C-physics-conection.png)
+![Aaron Swartz](https://github.com/yuanzx10/PhDNotes/raw/master/DAQ/figures/I2C-physics-conection.png)
 
 ## Linux上的I2C设备调试
 
