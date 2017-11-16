@@ -1,7 +1,3 @@
-<script type="text/javascript"
-   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
 # Linux I2C 简单的程序设计
 
 这周正想写写I2C和与其相关的C/C++的程序设计，可巧今天在知乎上关注的[IC君](https://zhuanlan.zhihu.com/icstudy)就发了一篇文章：[简单优雅的总线协议--I2C](https://zhuanlan.zhihu.com/p/31086959)。这个文章写得很好，但我还是按照自己的理解重新组织了一点点，觉得不好的朋友可以去参考[IC君](https://zhuanlan.zhihu.com/icstudy)的文章。 
