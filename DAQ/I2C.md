@@ -65,13 +65,13 @@ $ sudo i2cdetect -y 0
 
 十分完善的Linux的I2C驱动也不是一件很容易的事情，在这里只是简单地介绍一下在实际测试中怎样使用这个接口来收发数据。因为我主要关注的是使用I2C来进行芯片测试，所以一般来讲PC机是主设备，而我们的芯片则是从设备。其具体的步骤较为简单，看官们听我一一道来：
 
-### 打开总线
+### 载入总线
 
-和通常文件操作中采用fopen来打开文件一样，通常使用中定义的open函数来将设备接入I2C总线，其也返回一个文件描述符(file discription)。
+和通常文件操作中采用fopen来打开文件一样，通常使用中定义的``open``函数来将设备接入I2C总线，其也返回一个文件描述符(file discription)。
 
 ```C++
-int file;
-char *filename = "/dev/i2c-1";
+int file; //文件描述符
+char *filename = "/dev/i2c-1"; // 根据需求更改之
 if ((file = open(filename, O_RDWR)) < 0) { // 第二个参数需为O_RDWR
     // 接入总线失败
     perror("Failed to open the i2c bus");
@@ -87,6 +87,23 @@ KERNEL=="i2c-[0-9]*", GROUP="i2c"
 
 ### 初始化与从设备的通信
 
+打开I2C后，需要初始化与从设备的通信，这时需要的是从设备的地址，通过``ioctl``函数处理。这个地址是一个非常容易出错的地方，取决于厂商所提供设备的具体情况。需要注意的是不同厂商往往采用不同的方式来提供，所以需要几次试错才能找对这个地址，真是遗憾。 通常在这一步需要进行的设置有从设备地址，超时，重复次数以及读写。
+
+```C
+int addr = 0x20;          // 从设备的I2C地址
+if (ioctl(file, I2C_SLAVE, addr) < 0) { // 设置从设备的地址
+    printf("Failed to acquire bus access and/or talk to slave.\n");
+    exit(1);
+}
+    ioctl(file, I2C_TIMEOUT, 1); // 设置超时
+    ioctl(file, I2C_RETRIES, 1); // 设置重复次数
+    ioctl(file, I2C_RDWR   , 0); // 1 位读， 0 为写
+```
+
+### 通过``read()/write()``函数读写数据
+
+通过通过``read()/write()``函数可以进行数据的读写。但是需要指出的是，这两种方法均只能构造一条消息无法再RepStart模式下使用，如图。
+![]()
 
 
 
