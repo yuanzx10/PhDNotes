@@ -97,14 +97,44 @@ if (ioctl(file, I2C_SLAVE, addr) < 0) { // 设置从设备的地址
 }
     ioctl(file, I2C_TIMEOUT, 1); // 设置超时
     ioctl(file, I2C_RETRIES, 1); // 设置重复次数
-    ioctl(file, I2C_RDWR   , 0); // 1 位读， 0 为写
+    //ioctl(file, I2C_RDWR   , 0); // 1 位读， 0 为写
 ```
 
 ### 通过``read()/write()``函数读写数据
 
-通过通过``read()/write()``函数可以进行数据的读写。但是需要指出的是，这两种方法均只能构造一条消息无法再RepStart模式下使用，如图。
-![]()
+通过通过``read()/write()``函数可以进行数据的读写。其中``read``函数有三个参数，分别是文件描述符，存放数据的地址，以及需要读取的数据长度，其返回值为实际读取的数据长度，若两者不相等，则表明读取有误。``write``函数有三个参数，存放待写至从设备数据的地址，以及写入数据长度，其返回值为实际写入的数据长度，若两者不相等，则表明写入有误。
 
+```
+    int NBytes = 10;
+    char rBuf[10];       // 存放读入的数据
+    char wBuf[10] = {0}; // 向从设备写入0
+    if(read(file, rbuf, NBytes)!=NBytes){
+        printf("Failed to read\n");
+        exit(1);
+    }
+    if(write(file, wbuf, NBytes)!=NBytes){
+        printf("Failed to read\n");
+        exit(1);
+    }
+```
+
+![](https://github.com/yuanzx10/PhDNotes/raw/master/DAQ/figures/I2C-RepStart.png)
+
+但是需要指出的是，这两种方法均只能构造一条消息无法在RepStart模式下使用；此时需要使用下面的ioctl方法来进行读写。
+
+### 通过``ioctl``函数进行读写操作
+
+在 I2C 设备上读写数据的时序和数据通常通过``i2c_msg`` 数组组织，最后通过 ``ioctl``函数完成，下面的这段代码为
+
+```
+    struct i2c_msg_msg[2];
+    struct i2c_ioctl_rdwr_data{
+        struct i2c_msg_msg* msgs; // Pointer to array of simple messages
+        int    nmsgs;             // Number of messages
+    }
+    
+    unsigned char reg_addr = 
+```
 
 
 ## 注意
